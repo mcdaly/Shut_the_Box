@@ -26,7 +26,7 @@ if __name__ == '__main__':
         print("Turn: ", turn)
         # Step 2: Roll the dice
         # If 7,8,or 9 are knocked down, player decides how many dice to roll
-        roll = [0,0]
+        roll = [0, 0]
         if 7 in current_tiles or 8 in current_tiles or 9 in current_tiles:
             roll[0] = roll_dice()
             roll[1] = roll_dice()
@@ -34,9 +34,8 @@ if __name__ == '__main__':
             roll[0] = roll_dice()
 
         # Step 3: Calculate total from dice
-        print("Dice Roll:", roll)
         total = roll[0] + roll[1]
-        print("Total of Roll:", total)
+        print("Dice Roll:", roll, " ... Total: ", total)
 
         # Step 4: Which tiles to knock down?
         knock_down = remove_largest_number(total, current_tiles)
