@@ -14,15 +14,6 @@ from roll_dice import *
 from shut_the_box_strategy import *
 
 if __name__ == '__main__':
-    test = []
-    # test.insert(0,[1,2,3])
-    # test[0].extend([4, 7])
-    test = (1,2)
-    # test.append(0,[4,5])
-    # test.append(0,[1,2])
-    # test.append(1,[4,5])
-    # test.append(2,[3,7])
-
 
     # Step 1: Define Player's Tiles
     current_tiles = [1, 2, 3, 4, 5, 6, 7, 8, 9]
