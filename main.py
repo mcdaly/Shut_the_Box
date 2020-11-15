@@ -21,7 +21,7 @@ if __name__ == '__main__':
     keep_playing = 1
     turn = 0
 
-    while keep_playing and turn < 10:
+    while keep_playing:
         turn += 1
         print("Turn: ", turn)
         # Step 2: Roll the dice
