@@ -28,7 +28,7 @@ if __name__ == "__main__":
         player = Player(strategy=strategy)
         for ii in loops:
             cur_result = start_game(player, verbose)
-            result.insert(ii, cur_result)
+            result.insert(ii, cur_result.final_score)
 
         # Do some math on the result
         print(
@@ -63,6 +63,6 @@ Loaded dice
 
 Output game moves as a CSV with the following columns:
     Player name, date and time of game, weather, location (home, bar, tournament), 
-    9 sections with tiles remaining and dice roll
+    9 sections with tiles remaining, dice roll, tiles selected to knock down
 
 """

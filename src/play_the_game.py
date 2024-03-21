@@ -11,9 +11,12 @@
 # Obtain the smallest possible number when the remaining tiles are concatenated together
 
 from data_classes.player import Player
+from data_classes.game_state import Game
 
 
-def start_game(player: Player, verbose: bool = False):
+def start_game(player: Player, verbose: bool = False) -> Game:
+    current_game = Game(player_name=player.name)
+
     # Step 1: Define Player's Tiles
     current_tiles = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     if verbose:
@@ -37,6 +40,9 @@ def start_game(player: Player, verbose: bool = False):
         knock_down = player.knock_tiles(
             dice_total=dice_total, current_tiles=current_tiles
         )
+
+        current_game.record_turn(tiles_remaining=current_tiles.copy(), dice_role=player.dice_roll, tiles_knocked_down=knock_down)
+
         for ii in knock_down:
             if ii in current_tiles:
                 current_tiles.remove(ii)
@@ -68,4 +74,5 @@ def start_game(player: Player, verbose: bool = False):
         if verbose:
             print("Final Score: 0! You Rock")
 
-    return final_score
+    current_game.final_score = final_score
+    return current_game
