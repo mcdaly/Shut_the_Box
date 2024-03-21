@@ -10,60 +10,59 @@
 # Knock down all number tiles
 # Obtain the smallest possible number when the remaining tiles are concatenated together
 
-from roll_dice import *
-from shut_the_box_strategy import *
+from src.play_the_game import start_game
+from src.strageties import StrategyName
+from data_classes.player import Player
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    strategies = [
+        StrategyName.remove_largest_number,
+        StrategyName.remove_smallest_number,
+        StrategyName.remove_random,
+        StrategyName.remove_most_numbers,
+    ]
+    verbose = False
+    for strategy in strategies:
+        loops = range(10000)
+        result = []
+        player = Player(strategy=strategy)
+        for ii in loops:
+            cur_result = start_game(player, verbose)
+            result.insert(ii, cur_result)
 
-    # Step 1: Define Player's Tiles
-    current_tiles = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    print("Player Tiles: ", current_tiles)
-    keep_playing = 1
-    turn = 0
+        # Do some math on the result
+        print(
+            "Number of Shut Boxes for strategy #: ",
+            strategy,
+            " is ",
+            100 * (result.count(0) / len(result)),
+            "%",
+        )
+        print(
+            "Average score for strategy #: ",
+            strategy,
+            " is ",
+            sum(result) / len(result),
+        )
+        print("Thanks for playing")
 
-    while keep_playing:
-        turn += 1
-        print("Turn: ", turn)
-        # Step 2: Roll the dice
-        # If 7,8,or 9 are knocked down, player decides how many dice to roll
-        roll = [0, 0]
-        if 7 in current_tiles or 8 in current_tiles or 9 in current_tiles:
-            roll[0] = roll_dice()
-            roll[1] = roll_dice()
-        else:
-            roll[0] = roll_dice()
+        # TODO: Save off game results
 
-        # Step 3: Calculate total from dice
-        total = roll[0] + roll[1]
-        print("Dice Roll:", roll, " ... Total: ", total)
+"""
+Add different players with unique profiles
+* Each player may cheat at different (yet predictable) intervals
+    * Time of day, seasonal, geographical, weather, drunkenness
+    * Add fake bank accounts and does cheating tie with this?
 
-        # Step 4: Which tiles to knock down?
-        knock_down = remove_largest_number(total, current_tiles)
-        for ii in knock_down:
-            if ii in current_tiles:
-                current_tiles.remove(ii)
-                print("Removed", ii, "... Player Tiles Updated:", current_tiles)
-            else:
-                print("Failed to remove", ii, "... Game Over")
-                keep_playing = 0
+Cheating techniques:
+* Knock down extra tiles
+    Intentionally use against important tiles
+    Randomly knock down tiles (drunk)  
+Loaded dice
 
-        # Step 5: Check if won or roll dice again
-        if not current_tiles:
-            print('Winner Winner! You Shut The Box!')
-            keep_playing = 0
-        elif not knock_down:
-            print("No tiles to knock down... GG")
-            keep_playing = 0
 
-    # Game Over
-    if current_tiles:
-        # Calculate final score
-        final_score = 0
-        loop = 0
-        for ii in current_tiles:
-            loop += 1
-            digit_position = len(current_tiles) - loop
-            final_score += (ii * pow(10,digit_position))
-        print("Final Score:", final_score)
-    else:
-        print("Final Score: 0! You Rock")
+Output game moves as a CSV with the following columns:
+    Player name, date and time of game, weather, location (home, bar, tournament), 
+    9 sections with tiles remaining and dice roll
+
+"""
