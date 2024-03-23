@@ -17,7 +17,9 @@ from data_classes.player import Player
 from utils.output_result import output_results
 
 
-def analyze_shut_the_box(strategies: list, iterations: int, verbose: bool = False) -> None:
+def analyze_shut_the_box(
+    strategies: list, iterations: int, verbose: bool = False
+) -> None:
     """
     Run each strategy for shut the box the specified number of iterations to get a true understanding of the strategies
     effectiveness
@@ -36,8 +38,12 @@ def analyze_shut_the_box(strategies: list, iterations: int, verbose: bool = Fals
             result.append(cur_result.final_score)
 
         # Do some math on the result
-        print(f"Number of Shut Boxes for strategy #: {strategy} is {100 * (result.count(0) / len(result)):0.2f} %")
-        print(f"Average score for strategy #: {strategy} is {sum(result) / len(result):0.0f}")
+        print(
+            f"Number of Shut Boxes for strategy #: {strategy} is {100 * (result.count(0) / len(result)):0.2f} %"
+        )
+        print(
+            f"Average score for strategy #: {strategy} is {sum(result) / len(result):0.0f}"
+        )
         print("Thanks for playing")
 
         # TODO: Save off game results
