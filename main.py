@@ -9,10 +9,43 @@
 # Goal:
 # Knock down all number tiles
 # Obtain the smallest possible number when the remaining tiles are concatenated together
+from datetime import datetime
 
 from src.play_the_game import start_game
-from src.strageties import StrategyName
+from src.strategies import StrategyName
 from data_classes.player import Player
+from utils.output_result import output_results
+
+
+def analyze_shut_the_box(strategies: list, iterations: int, verbose: bool = False) -> None:
+    """
+    Run each strategy for shut the box the specified number of iterations to get a true understanding of the strategies
+    effectiveness
+    :param strategies: Strategies for knocking down the tiles
+    :param iterations: Number of times each strategy will be run
+    :param verbose: Flag for showing individual game details when playing
+    """
+    for strategy in strategies:
+        loops = range(iterations)
+        result = []
+        game_states = []
+        player = Player(name=strategy, strategy=strategy)
+        for ii in loops:
+            cur_result = start_game(player, verbose)
+            game_states.append(cur_result)
+            result.append(cur_result.final_score)
+
+        # Do some math on the result
+        print(f"Number of Shut Boxes for strategy #: {strategy} is {100 * (result.count(0) / len(result)):0.2f} %")
+        print(f"Average score for strategy #: {strategy} is {sum(result) / len(result):0.0f}")
+        print("Thanks for playing")
+
+        # TODO: Save off game results
+        # Generate filename with date and timestamp
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        csv_filename = f"output/{timestamp}_{strategy}.csv"
+        output_results(csv_filename, game_states)
+
 
 if __name__ == "__main__":
     strategies = [
@@ -21,32 +54,10 @@ if __name__ == "__main__":
         StrategyName.remove_random,
         StrategyName.remove_most_numbers,
     ]
-    verbose = False
-    for strategy in strategies:
-        loops = range(10000)
-        result = []
-        player = Player(strategy=strategy)
-        for ii in loops:
-            cur_result = start_game(player, verbose)
-            result.insert(ii, cur_result.final_score)
 
-        # Do some math on the result
-        print(
-            "Number of Shut Boxes for strategy #: ",
-            strategy,
-            " is ",
-            100 * (result.count(0) / len(result)),
-            "%",
-        )
-        print(
-            "Average score for strategy #: ",
-            strategy,
-            " is ",
-            sum(result) / len(result),
-        )
-        print("Thanks for playing")
+    iterations_per_strategy = 10000
 
-        # TODO: Save off game results
+    analyze_shut_the_box(strategies, iterations=iterations_per_strategy)
 
 """
 Add different players with unique profiles

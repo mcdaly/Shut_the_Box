@@ -1,5 +1,5 @@
 from utils.roll_dice import roll_dice
-from src.strageties import StrategyName, Strategy
+from src.strategies import StrategyName, Strategy
 
 
 class Player:

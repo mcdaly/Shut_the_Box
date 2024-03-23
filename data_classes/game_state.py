@@ -1,5 +1,4 @@
 from datetime import datetime
-from data_classes.player import Player
 from data_classes.locations import Locations
 
 
@@ -8,6 +7,12 @@ class Game:
         self, player_name: str, date: datetime = None, time: datetime = None, location: Locations = None
     ):
         self.player_name = player_name
+
+        if date is None:
+            date = datetime.now().strftime("%Y%m%d")
+        if time is None:
+            time = datetime.now().strftime("%H%M%S")
+
         self.game_date = date
         self.game_time = time
         self.location = location
