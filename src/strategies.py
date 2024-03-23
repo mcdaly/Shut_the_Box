@@ -25,18 +25,20 @@ class Strategy:
         # Find all addends of the total
         addends = find_tiles_to_knock_down(current_tiles, total)
 
+        tiles_to_fall = []
         if not addends:
-            return []
+            tiles_to_fall = []
         elif selection == StrategyName.remove_largest_number:
-            return cls.remove_largest_number(addends)
+            tiles_to_fall = cls.remove_largest_number(addends)
         elif selection == StrategyName.remove_smallest_number:
-            return cls.remove_smallest_number(addends)
+            tiles_to_fall = cls.remove_smallest_number(addends)
         elif selection == StrategyName.remove_most_numbers:
-            return cls.remove_most_numbers(addends)
+            tiles_to_fall = cls.remove_most_numbers(addends)
         elif selection == StrategyName.remove_least_likely_number:
-            return cls.remove_least_likely_number(addends)
+            tiles_to_fall = cls.remove_least_likely_number(addends)
         elif selection == StrategyName.remove_random:
-            return cls.remove_random_numbers(addends)
+            tiles_to_fall = cls.remove_random_numbers(addends)
+        return list(tiles_to_fall)
 
     @classmethod
     def remove_largest_number(cls, addends: list) -> list:

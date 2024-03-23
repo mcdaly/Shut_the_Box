@@ -41,7 +41,11 @@ def start_game(player: Player, verbose: bool = False) -> Game:
             dice_total=dice_total, current_tiles=current_tiles
         )
 
-        current_game.record_turn(tiles_remaining=current_tiles.copy(), dice_role=player.dice_roll, tiles_knocked_down=knock_down)
+        current_game.record_turn(
+            tiles_remaining=current_tiles.copy(),
+            dice_role=player.dice_roll,
+            tiles_knocked_down=knock_down,
+        )
 
         for ii in knock_down:
             if ii in current_tiles:
